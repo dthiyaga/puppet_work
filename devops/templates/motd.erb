@@ -1,0 +1,61 @@
+<% if devops_managed == 'True' -%>
+This is a Devops-managed system. To make changes, please visit
+  http://devops.oraclecorp.com
+<% else %>
+This machine is a legacy host. If the following information is incorrect, please make changes at 
+http://devops.oraclecorp.com
+<% end -%>
+
+<% if devops_reservation_status == 'reserved' -%>
+<% if @devops_user_short -%>
+User: <%= devops_user_short %>
+Expires: <%= devops_reserved_until %>
+
+Reservation type: <%= devops_reservation_type %>
+<% if devops_reservation_type == 'entitlement' -%>
+  The host is currently reserved for personal development use only.
+  If you're not the named user above, be aware that this system may be 
+  reimaged or released without warning.
+<% elsif devops_reservation_type == 'short' -%>
+  This host is currently a short-term reservation. Be aware that the
+  reservation only allows a single renewal, after which there will be no
+  extension. There are no exceptions to this policy.
+
+  If you need a longer term machine, consider requesting group quota.
+<% elsif devops_reservation_type == 'group' -%>
+  This host is currently reserved for group use by the user above.
+<% end -%>
+
+<% if @devops_use -%>
+Use: <%= devops_use %>
+<% else %>
+Use: 
+<% end -%>
+
+Host specific info (below) - you can modify contents of /etc/motd_hostinfo as needed to update data:
+
+<% if @motd_hostinfo -%>
+<%= motd_hostinfo %>
+<% end -%>
+<% else -%>
+User: UNRESERVED--This asset may be reassigned at any point without prejudice. 
+      If this is an error, please submit a request to fix it at the URL above.
+
+<% end -%>
+<% elsif devops_reservation_status == 'available' -%>
+Reservation status: idle
+  This host is currently marked as an idle instance, and no one should be
+  using it. If you're working on this machine, then you're squatting a system
+  and it will likely be reimaged very shortly. Please use the above URL to 
+  request a system of your own instead of using this one.
+<% elsif devops_reservation_status == 'error' -%>
+Reservation status: error
+  This host is currently marked as being in an error state. (i.e. It didn't 
+  report in after being told to image. As such, it is awaiting service from
+  a SysAdmin and may be reimaged at any time. Please do not use it!
+<% end -%>
+<% if devops_decommission_date != 'None' %>
+
+                  THIS HOST IS SCHEDULED FOR DECOMMISSION!
+Decommission date: <%= devops_decommissions_date %>
+<% end -%>

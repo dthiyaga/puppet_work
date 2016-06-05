@@ -1,0 +1,10 @@
+#/var/log/django/devops-uwsgi.log {
+#    missingok
+#    notifempty
+#    create 644 apache apache
+#    compress
+#    daily
+#    postrotate
+#        /bin/kill -HUP `cat /var/run/devops/master.pid`
+#    endscript
+#}

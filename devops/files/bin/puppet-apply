@@ -1,0 +1,4 @@
+#!/bin/bash
+sleep  $(( $RANDOM % 60 ))
+rsync -a --delete rsync://devops.oraclecorp.com/puppet /etc/puppet
+/usr/local/pdit/bin/puppet /etc/puppet/manifests/site.pp --logdest syslog
